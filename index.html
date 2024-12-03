@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Check</title>
+    <style>
+      body {
+        background-image: url(https://bloximages.newyork1.vip.townnews.com/waow.com/content/tncms/assets/v3/editorial/4/e3/4e3f13d0-12a6-11ed-93dd-939d0a5ec1dd/62e990ce03b66.image.jpg?resize=1000%2C668);
+        background-size: 100vmax;
+        text-align: center;
+      }
+
+      h1 {
+        /* border: 4px solid grey;
+        background-color: rgba(165, 160, 160, 0.589);
+        border-radius: 58px; */
+        margin: auto;
+        padding: 15px;
+        width: 600px;
+        text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.363);
+        font-weight: 600;
+        text-align: center;
+        font-size: 80px;
+        font-style: oblique;
+        margin-bottom: 80px;
+        text-shadow: black 30px;
+      }
+      #cty {
+        display: flex;
+        padding: auto;
+        text-shadow: 4px 3px 2px rgba(0, 0, 0, 0.589);
+        border-radius: 10px;
+        justify-content: space-between;
+        text-align: center;
+        padding: 10px;
+        font-weight: bold;
+        text-shadow: black 30px;
+        width: 800px;
+        margin: auto;
+        font-size: 44px;
+      }
+      #cityName {
+        text-align: center;
+
+        border: 3px solid rgb(24, 23, 23);
+        width: 200px;
+        border-radius: 10px;
+        font-size: 30px;
+        font-weight: 600;
+        background-color: rgba(128, 128, 128, 0.023);
+      }
+      #cty > button {
+        border: 3px solid grey;
+        width: 120px;
+        height: 35px;
+        border-radius: 10px;
+        background-color: rgba(102, 100, 100, 0.616);
+        cursor: pointer;
+        color: rgb(250, 250, 255);
+        font-weight: 400;
+        font-size: 16px;
+        margin-top: 9px;
+        
+      }
+
+      #cty > button:active {
+        background-color: rgba(54, 20, 20, 0);
+        color: black;
+      }
+
+      #weatherInfo {
+        font-size: 26px;
+        text-align: center;
+      }
+
+      #weatherInfo > p {
+        font-weight: 540;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Weather update</h1>
+    <div id="cty">
+      <label for="cityName">Enter City Name:</label>
+      <input type="text" id="cityName" placeholder="City name" />
+      <button onclick="getWeather()">Get Weather</button>
+    </div>
+
+    <div style="display: block" id="weatherInfo">
+      <h2>Weather Information</h2>
+      <p>City: <span id="city"></span></p>
+      <p>Temperature: <span id="temperature"></span> °C</p>
+      <p>Humidity: <span id="humidity"></span>%</p>
+      <p>Description: <span id="description"></span></p>
+    </div>
+    <script>
+      var weatherInfo = document.getElementById("weatherInfo");
+      var cityElement = document.getElementById("city");
+      var temperatureElement = document.getElementById("temperature");
+      var humidityElement = document.getElementById("humidity");
+      var descriptionElement = document.getElementById("description");
+
+      function getWeather() {
+        var cityName = document.getElementById("cityName").value;
+        var apiKey = "bff55fb56b7638c11f86892e115aa43b"; // Replace with your API key
+        var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            displayWeather(data);
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+          });
+      }
+
+      function displayWeather(weatherData) {
+        var weatherInfo = document.getElementById("weatherInfo");
+        var cityElement = document.getElementById("city");
+        var temperatureElement = document.getElementById("temperature");
+        var humidityElement = document.getElementById("humidity");
+        var descriptionElement = document.getElementById("description");
+
+        if (weatherData.name) {
+          cityElement.textContent = weatherData.name;
+          temperatureElement.textContent = weatherData.main.temp;
+          humidityElement.textContent = weatherData.main.humidity;
+          descriptionElement.textContent = weatherData.weather[0].description;
+
+          weatherInfo.style.display = "block";
+        } else {
+          console.error("Invalid city name or data not available.");
+          weatherInfo.style.display = "none";
+        }
+      }
+    </script>
+    <!-- <script src="./Weather_App.js"></script> -->
+  </body>
+</html>
